@@ -14,7 +14,7 @@ class CategoryLinks extends Component {
       Categories: 
       {
       categories && categories.map((category, index) => (
-        category.name !== null && <span key={category.name}> <Link to={`/category/${category.path}`}>{category.name}</Link> </span> 
+        category.name && <span key={category.name}> <Link to={`/category/${category.path}`}>-{category.name}-</Link> </span> 
         ))
       /**/}
       </div>

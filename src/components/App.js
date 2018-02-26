@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import '../App.css';
-import { categoryAdd, postAdd } from '../actions/actions';
+import { categoryAdd, postAdd, commentsAdd } from '../actions/actions';
 import Main from './Main';
 import CategoryLinks from './CategoryLinks';
 
@@ -30,7 +30,7 @@ class App extends Component {
             .then((res) => { return(res.text() )})
             .then((data) => {
               const comments = JSON.parse(data);
-              comments.length && console.log('comments',comments);
+              comments.length && this.props.dispatch(commentsAdd(comments));
             })
         return true;
         });

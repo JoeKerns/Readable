@@ -30,7 +30,7 @@ class Posts extends Component {
 
       { 
         postsToShow && postsToShow.map((post, index) => (
-          post.id !== null && <span key={post.id}> <Link to={`/posts/${post.id}`}> { `${post.title} - ${post.author}` } </Link> <br/>
+          post.id && <span key={post.id}> <Link to={`/posts/${post.id}`}> { `${post.title} - ${post.author}` } </Link> <br/>
             { `Vote Score: ${post.voteScore}`}<br/>
             <br/>
 				</span>

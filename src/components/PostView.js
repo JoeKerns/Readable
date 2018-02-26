@@ -5,9 +5,23 @@ import '../App.css';
 //import { addPost } from '../actions/actions';
 
 class PostView extends Component {
+  /*componentDidMount() {
+    const thisID = this.props.match.params.id;
+    const urlPosts = `http://localhost:3001/posts/${thisID}/comments`;
+    fetch(urlPosts, { headers: { 'Authorization': 'whatever-you-want' }, credentials: 'include' } )
+      .then( (res) => { return(res.text()) })
+      .then((data) => {
+        const comments = JSON.parse(data);
+        comments.map((comment) => (
+        //  this.props.dispatch(postAdd(post))
+        console.log('comment -> ',comment)
+        ));
+      });
+  }*/
+
   render() {
     const thisID = this.props.match.params.id;
-    const { posts } = this.props;
+    const { posts, comments } = this.props;
     const post = posts.filter(post => post.id === thisID);
 
     
@@ -28,7 +42,8 @@ class PostView extends Component {
     const voteDown = () => {
       this.props.dispatch(vote(thisID,'down'));
     }
-    //console.log(this.props);
+    comments.length > 1 && console.log(comments);
+
     return (
       <div>
         <div>This is PostView...</div>
@@ -39,10 +54,19 @@ class PostView extends Component {
             <h1>{thisPost.title}</h1>  
             <h3>{thisPost.author}</h3>
             <p>{ thisPost.body }</p>
-            <p><button onClick={voteUp}> + </button> Score: { thisPost.voteScore } <button onClick={voteDown}> - </button></p>            
+            <p><button onClick={voteUp}> + </button> Post Score: { thisPost.voteScore } <button onClick={voteDown}> - </button></p>            
           </span>
-        ))
-      }
+          ))
+        }
+        {
+        comments && comments.map((comment) => (
+          <span key={comment.id}>
+            <h3>{comment.author}</h3>
+            <p>{ comment.body }</p>
+            <p><button onClick={voteUp}> + </button> Comments Score: { comment.voteScore } <button onClick={voteDown}> - </button></p>            
+          </span>
+          ))
+        }
 
         
         </div>
@@ -52,9 +76,10 @@ class PostView extends Component {
   }
 }
 
-function mapStateToProps({ postReducer }) {  
+function mapStateToProps({ postReducer, commentsReducer }) {  
 	return {
       posts: postReducer.posts,
+      comments: commentsReducer.comments,
     }
 }         /**/
 

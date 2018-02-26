@@ -76,34 +76,22 @@ function postReducer(state = { posts: [{}]  }, action) {
     }
 }
 
-const commentsInitialState = {
-  posts: [
-    {
-      id: null,
-      body: null,
-      category: null,
-      commentCount: null,
-      deleted: false,
-      timestamp: null,
-      title: null,
-      voteScore: null,
-    }    
-  ]
-}
-
-function commentsReducer(state = commentsInitialState,action) {
+function commentsReducer(state = { comments: [{}]  },action) {
   switch(action.type) {
     case COMMENTS_ADD:
-    //const { author, body, deleted, id, parentDeleted, parentId, timestamp, voteScore } = action.payload.comments;
-    return {
-      ...state,
-      comments: [...state.comments,action.payload.comments],
-    }
+      //console.log('comments_add: ',action);
+      return {
+        ...state,
+        comments: [...state.comments,action.payload.comments],
+      }
+    
+    default: 
+      return state;
   }
 }
 
 export default combineReducers({
   categoryReducer,
   postReducer,
-  //commentsReducer,
+  commentsReducer,
 });
