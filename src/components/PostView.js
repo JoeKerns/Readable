@@ -1,30 +1,26 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { vote } from '../actions/actions';
+import { bindActionCreators } from "redux";
+import { Link } from 'react-router-dom';
+import { postVote, commentsGet, commentVote } from '../actions/actions';
 import '../App.css';
 //import { addPost } from '../actions/actions';
+import { updatePostVote, updateCommentVote } from '../utils/api';
+import Comment from './Comment';
 
 class PostView extends Component {
-  /*componentDidMount() {
-    const thisID = this.props.match.params.id;
-    const urlPosts = `http://localhost:3001/posts/${thisID}/comments`;
-    fetch(urlPosts, { headers: { 'Authorization': 'whatever-you-want' }, credentials: 'include' } )
-      .then( (res) => { return(res.text()) })
-      .then((data) => {
-        const comments = JSON.parse(data);
-        comments.map((comment) => (
-        //  this.props.dispatch(postAdd(post))
-        console.log('comment -> ',comment)
-        ));
-      });
-  }*/
+  componentDidMount() {
+    let thisID;
+    if (this.props.match.params.id) {
+      thisID = this.props.match.params.id;      
+    }    
+    thisID && this.props.commentsGet(thisID);
+  }
 
   render() {
     const thisID = this.props.match.params.id;
     const { posts, comments } = this.props;
     const post = posts.filter(post => post.id === thisID);
-
-    
     
     /*if (posts) { // need to figure out the reduce vs filter and map
       const justThisPost = posts.reduce((thePost,postToCheck) => {
@@ -34,16 +30,28 @@ class PostView extends Component {
         //console.log('justThisPost',justThisPost);
       })
     }*/
-
-    const voteUp = () => {
-      this.props.dispatch(vote(thisID,'up'));
+    
+    const postVoteUp = () => {
+      this.props.postVote(thisID,'up');
+      updatePostVote(thisID,'upVote');
     }
 
-    const voteDown = () => {
-      this.props.dispatch(vote(thisID,'down'));
+    const postVoteDown = () => {
+      this.props.postVote(thisID,'down');
+      updatePostVote(thisID,'downVote');
     }
-    comments.length > 1 && console.log(comments);
 
+    const commentVoteUp = (commentID) => {
+      this.props.commentVote(commentID,'up');
+      updateCommentVote(commentID,'upVote');
+    }
+
+    const commentVoteDown = (commentID) => {
+      this.props.commentVote(commentID,'down');
+      updateCommentVote(commentID,'downVote');
+    }
+
+    /**/
     return (
       <div>
         <div>This is PostView...</div>
@@ -54,21 +62,22 @@ class PostView extends Component {
             <h1>{thisPost.title}</h1>  
             <h3>{thisPost.author}</h3>
             <p>{ thisPost.body }</p>
-            <p><button onClick={voteUp}> + </button> Post Score: { thisPost.voteScore } <button onClick={voteDown}> - </button></p>            
+            <p><button onClick={postVoteUp}> + </button> Post Score: { thisPost.voteScore } <button onClick={postVoteDown}> - </button></p>            
           </span>
           ))
         }
-        {
-        comments && comments.map((comment) => (
-          <span key={comment.id}>
-            <h3>{comment.author}</h3>
-            <p>{ comment.body }</p>
-            <p><button onClick={voteUp}> + </button> Comments Score: { comment.voteScore } <button onClick={voteDown}> - </button></p>            
-          </span>
-          ))
-        }
-
         
+        {
+          comments.map((comment) => (
+            <Comment 
+              comment={comment} 
+              key={comment.id} 
+              commentVoteUp={commentVoteUp} 
+              commentVoteDown={commentVoteDown}
+              parentId={thisID} />
+          ))
+        }
+        <Link to={`/newcomment/${thisID}`}>Add A Comment</Link>
         </div>
       </div>
     )
@@ -76,11 +85,22 @@ class PostView extends Component {
   }
 }
 
-function mapStateToProps({ postReducer, commentsReducer }) {  
+function mapStateToProps({ posts, comments }) {  
 	return {
-      posts: postReducer.posts,
-      comments: commentsReducer.comments,
+      posts,
+      comments,
     }
-}         /**/
+}
 
-export default connect(mapStateToProps)(PostView);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators( {
+      commentsGet,
+      postVote,
+      commentVote,
+    },
+    dispatch
+  );
+
+
+
+export default connect(mapStateToProps,mapDispatchToProps)(PostView);

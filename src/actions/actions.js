@@ -1,51 +1,60 @@
-export const ADD_CATEGORY = 'ADD_CATEGORY';
-export const ADD_POST = 'ADD_POST';
-export const VOTE = 'VOTE';
-export const COMMENTS_ADD = 'COMMENTS_ADD';
+import * as api from '../utils/api';
 
-/*
-export const ADD_TO_CART = 'ADD_TO_CART';
+export const GET_CATEGORIES = 'GET_CATEGORIES';
+export const GET_POSTS = 'GET_POSTS';
+export const POST_VOTE = 'POST_VOTE';
+export const POST_SAVE = 'POST_SAVE';
+export const GET_COMMENTS = 'GET_COMMENTS';
+export const COMMENT_SAVE = 'COMMENT_SAVE';
+export const COMMENT_VOTE = 'COMMENT_VOTE';
 
-export function addToCart(product, quantity, unitCost) {
-  return {
-    type: ADD_TO_CART,
-    payload: { product, quantity, unitCost }
-  }
-}
-*/
+export const categoriesGet = () => dispatch =>
+  api.getCategories()
+    .then(({ categories }) => 
+      dispatch({
+        type: GET_CATEGORIES,
+        categories
+      })
+    );
 
-export function categoryAdd( name, path ) {
-  return {
-    type: ADD_CATEGORY,
-    payload: { name, path }
-  }
-}
+export const postsGet = () => dispatch =>
+  api.getPosts()
+    .then(({ posts }) => 
+      dispatch({
+        type: GET_POSTS,
+        posts
+      })
+    );
 
+export const postVote = (id,which) => dispatch =>
+  dispatch({
+    type: POST_VOTE,
+    payload: {id,which}
+  });
 
-/*export function postReducer(post) {
-	return {
-    type: ADD_POST,
-    payload: { post },
-  }
-}*/
+export const postSave = (postData) => dispatch =>
+  dispatch({
+    type: POST_SAVE,
+    payload: postData
+  });
 
-export function postAdd(post) {
-	return {
-    type: ADD_POST,
-    payload: { post },
-  }
-}
+export const commentsGet = (postId) => dispatch =>
+  api.getComments(postId)
+    .then(({ comments }) =>
+      dispatch({
+        type: GET_COMMENTS,
+        comments
+      })
+    );
 
-export function vote(id,which) {
-  return {
-    type: VOTE,
-    payload: {id,which},
-  }
-}
+export const commentSave = (commentData) => dispatch =>
+  dispatch({
+    type: COMMENT_SAVE,
+    payload: commentData
+  });
 
-export function commentsAdd(comments) {
-  return {
-    type: COMMENTS_ADD,
-    payload: { comments },
-  }
-}
+export const commentVote = (id,which) => dispatch =>
+  dispatch({
+    type: COMMENT_VOTE,
+    payload: {id,which}
+  });

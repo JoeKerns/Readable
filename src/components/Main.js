@@ -2,6 +2,8 @@ import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 import Posts from './Posts'
 import PostView from './PostView'
+import NewPost from './NewPost'
+import NewComment from './NewComment'
 //import Roster from './Roster'
 //import Schedule from './Schedule'
 
@@ -16,6 +18,8 @@ const Main = () => (
       <Route exact path='/' component={Posts}/>
       <Route path='/category/:name' component={Posts}/>
       <Route path='/posts/:id' component={PostView}/>
+      <Route path='/newpost' component={NewPost}/>
+      <Route path='/newcomment/:parentId' component={NewComment}/>
       {/*
       <Route exact path='/' component={Posts}/>
       <Route path='/roster' component={Roster}/>

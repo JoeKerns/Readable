@@ -1,33 +1,30 @@
 import React, { Component } from 'react';
-//import { connect } from 'react-redux';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import '../App.css';
-//import { addPost } from '../actions/actions';
 
 class CategoryLinks extends Component {
   render() {
     const { categories } = this.props;
-    //console.log(categories);
     return (
       <div>
       <Link to="/">Home</Link> 
       Categories: 
       {
       categories && categories.map((category, index) => (
-        category.name && <span key={category.name}> <Link to={`/category/${category.path}`}>-{category.name}-</Link> </span> 
+        <span key={category.name}> <Link to={`/category/${category.path}`}>{category.name}</Link> </span> 
         ))
-      /**/}
+      }
+      <div><Link to="/newpost">New Post</Link></div>
       </div>
-    )
-    
+    )    
   }
 }
 
-/*function mapStateToProps({ addPost }) {  
+function mapStateToProps({ categories }) {  
 	return {
-      posts: addPost.posts,
+      categories
     }
-}     mapStateToProps    */
+}
 
-//export default connect()(CategoryLinks);
-export default CategoryLinks;
+export default connect(mapStateToProps)(CategoryLinks);

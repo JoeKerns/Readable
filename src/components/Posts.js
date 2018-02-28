@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import '../App.css';
 import { Link } from 'react-router-dom';
-//import { addPost } from '../actions/actions';
 
 class Posts extends Component {
   render() {
@@ -10,41 +9,35 @@ class Posts extends Component {
     let postsFromCategory = [];
     const { posts } = this.props;
 
-    //console.log('this.props.match.params.name',this.props.match.params.name)
-
     if (this.props.match.params.name) {
       category = this.props.match.params.name;
       postsFromCategory = posts.filter(post => post.category === category);
-      //console.log(postsFromCategory);
     }
-     
-    //console.log('postsFromCategory.length',postsFromCategory.length);
 
-    const postsToShow = (postsFromCategory.length > 0) ? postsFromCategory : posts;
-
-    //console.log('postsToShow',postsToShow);
+    const postsToShow = (postsFromCategory.length > 0) ? postsFromCategory : posts;    
 
     return (
       <div>
-      This is posts...
+        <h3>Posts</h3>
 
-      { 
-        postsToShow && postsToShow.map((post, index) => (
-          post.id && <span key={post.id}> <Link to={`/posts/${post.id}`}> { `${post.title} - ${post.author}` } </Link> <br/>
-            { `Vote Score: ${post.voteScore}`}<br/>
-            <br/>
-				</span>
-        ))
-      }
+        { 
+          postsToShow && postsToShow.map((post, index) => (
+            post.id && <span key={post.id}> <Link to={`/posts/${post.id}`}> { `${post.title} - ${post.author}` } </Link> <br/>
+              { `Vote Score: ${post.voteScore}`}<br/>
+              <br/>
+            </span>
+            ))
+        }
+        
       </div>
     )
     
   }
 }
 
-function mapStateToProps({ postReducer }) {  
+function mapStateToProps({ posts }) {  
 	return {
-      posts: postReducer.posts,
+      posts,
     }
 }         /**/
 
