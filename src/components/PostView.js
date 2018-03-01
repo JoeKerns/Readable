@@ -18,9 +18,18 @@ class PostView extends Component {
   }
 
   render() {
+    let postDetails = {
+      author: undefined,
+      body: undefined,
+      title: undefined,
+      category: undefined,
+      id: undefined,
+    }
     const thisID = this.props.match.params.id;
     const { posts, comments } = this.props;
     const post = posts.filter(post => post.id === thisID);
+
+    postDetails = Object.assign({}, ...post);
     
     /*if (posts) { // need to figure out the reduce vs filter and map
       const justThisPost = posts.reduce((thePost,postToCheck) => {
@@ -56,6 +65,7 @@ class PostView extends Component {
       <div>
         <div>This is PostView...</div>
         <div>
+        <Link to={`/editpost/${thisID}/${postDetails.author}/${postDetails.title}/${postDetails.category}/${postDetails.body}`}>Edit Post</Link>
         {
         post && post.map((thisPost) => (
           <span key={thisPost.id}>

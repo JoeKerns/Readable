@@ -20,6 +20,7 @@ const Main = () => (
       <Route path='/posts/:id' component={PostView}/>
       <Route path='/newpost' component={NewPost}/>
       <Route path='/newcomment/:parentId' component={NewComment}/>
+      <Route path='/editpost/:id/:author/:title/:category/:body' component={NewPost}/>
       {/*
       <Route exact path='/' component={Posts}/>
       <Route path='/roster' component={Roster}/>
