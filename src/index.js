@@ -5,6 +5,7 @@ import Root from './components/Root'
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from "redux-thunk";
 import reducer from './reducers/reducers';
+import "semantic-ui-css/semantic.css";
 
 /*const logger = store => next => action => {
   //console.group(action.type)

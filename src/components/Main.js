@@ -2,8 +2,10 @@ import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 import Posts from './Posts'
 import PostView from './PostView'
-import NewPost from './NewPost'
+import PostNew from './PostNew'
 import NewComment from './NewComment'
+import PostEdit from './PostEdit'
+import CommentEdit from './CommentEdit'
 //import Roster from './Roster'
 //import Schedule from './Schedule'
 
@@ -18,9 +20,10 @@ const Main = () => (
       <Route exact path='/' component={Posts}/>
       <Route path='/category/:name' component={Posts}/>
       <Route path='/posts/:id' component={PostView}/>
-      <Route path='/newpost' component={NewPost}/>
+      <Route path='/newpost' component={PostNew}/>
       <Route path='/newcomment/:parentId' component={NewComment}/>
-      <Route path='/editpost/:id/:author/:title/:category/:body' component={NewPost}/>
+      <Route path='/editpost/:id' component={PostEdit}/>
+      <Route path='/editcomment/:id' component={CommentEdit}/>
       {/*
       <Route exact path='/' component={Posts}/>
       <Route path='/roster' component={Roster}/>

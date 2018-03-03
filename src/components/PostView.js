@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import { Link } from 'react-router-dom';
-import { postVote, commentsGet, commentVote } from '../actions/actions';
+import { postVote, postDelete, commentsGet, commentVote, commentDelete } from '../actions/actions';
 import '../App.css';
-//import { addPost } from '../actions/actions';
-import { updatePostVote, updateCommentVote } from '../utils/api';
-import Comment from './Comment';
+import { updatePostVote, updateCommentVote, deletePostFromServer, deleteCommentFromServer } from '../utils/api';
+import CommentView from './Comment';
+import { Icon, Divider, Card, Comment } from 'semantic-ui-react';
 
 class PostView extends Component {
   componentDidMount() {
@@ -18,27 +18,24 @@ class PostView extends Component {
   }
 
   render() {
-    let postDetails = {
-      author: undefined,
-      body: undefined,
-      title: undefined,
-      category: undefined,
-      id: undefined,
-    }
     const thisID = this.props.match.params.id;
     const { posts, comments } = this.props;
     const post = posts.filter(post => post.id === thisID);
 
-    postDetails = Object.assign({}, ...post);
-    
-    /*if (posts) { // need to figure out the reduce vs filter and map
-      const justThisPost = posts.reduce((thePost,postToCheck) => {
-        if (postToCheck.id === this.props.match.params.id) {          
-          return thePost;
-        }
-        //console.log('justThisPost',justThisPost);
-      })
-    }*/
+    const deletePost = () => {
+      if (window.confirm(`Are you sure you want to delete this post? Deleted post are gone forever!`)) {
+        this.props.postDelete(thisID);
+        deletePostFromServer(thisID);
+        this.props.history.push(`/`);
+      }
+    };
+
+    const deleteComment = (commentId) => {
+      if (window.confirm(`Are you sure you want to delete this comment? Deleted comments are gone forever! ${commentId}`)) {
+        this.props.commentDelete(commentId);
+        deleteCommentFromServer(commentId);
+      }
+    };
     
     const postVoteUp = () => {
       this.props.postVote(thisID,'up');
@@ -59,34 +56,46 @@ class PostView extends Component {
       this.props.commentVote(commentID,'down');
       updateCommentVote(commentID,'downVote');
     }
-
-    /**/
+    
     return (
       <div>
-        <div>This is PostView...</div>
         <div>
-        <Link to={`/editpost/${thisID}/${postDetails.author}/${postDetails.title}/${postDetails.category}/${postDetails.body}`}>Edit Post</Link>
-        {
-        post && post.map((thisPost) => (
-          <span key={thisPost.id}>
-            <h1>{thisPost.title}</h1>  
-            <h3>{thisPost.author}</h3>
-            <p>{ thisPost.body }</p>
-            <p><button onClick={postVoteUp}> + </button> Post Score: { thisPost.voteScore } <button onClick={postVoteDown}> - </button></p>            
-          </span>
-          ))
-        }
         
         {
+        post && post.map((thisPost) => (
+          <Card key={thisPost.id} style={style.card}>
+            <Card.Content>
+              <Card.Header>
+                {thisPost.title} <Link to={`/editpost/${thisID}`}><Icon name="pencil" /></Link> <Icon name="trash" style={{color: 'red'}}  onClick={deletePost} />
+              </Card.Header>
+              <Card.Description>
+                <p>Author: {thisPost.author}</p>
+                <p>{ thisPost.body }</p>
+                </Card.Description>
+            </Card.Content>
+            <Card.Content extra>
+              <p>Post Score: { thisPost.voteScore } <Icon onClick={postVoteUp} name="thumbs outline up" style={{color: 'green'}} size="large" /> <Icon name="thumbs outline down" style={{color: 'red'}} size="large" onClick={postVoteDown}/></p>   
+            </Card.Content>
+          </Card>
+          ))
+        }
+
+        <Divider horizontal style={style.divider}> Comments <Icon name="comments" style={{color: 'dodgerblue'}} /></Divider>
+        
+        <Comment.Group style={style.commentGroup}>
+        {
           comments.map((comment) => (
-            <Comment 
+            <CommentView              
               comment={comment} 
               key={comment.id} 
               commentVoteUp={commentVoteUp} 
               commentVoteDown={commentVoteDown}
-              parentId={thisID} />
+              parentId={thisID}
+              deleteComment={deleteComment} />
           ))
         }
+
+        </Comment.Group>
         <Link to={`/newcomment/${thisID}`}>Add A Comment</Link>
         </div>
       </div>
@@ -107,10 +116,28 @@ const mapDispatchToProps = dispatch =>
       commentsGet,
       postVote,
       commentVote,
+      postDelete,
+      commentDelete,
     },
     dispatch
   );
 
+const style = {
+  card: {
+    width: '40%',
+    margin: 'auto',
+    marginTop: 12,
+    marginBottom: 12, 
+  },
+  divider: {
+    margin: 'auto',
+    width: '40%',
+  },
+  commentGroup: {
+    margin: '12 auto',
+    maxWidth: '100%',
+  }
+}
 
 
 export default connect(mapStateToProps,mapDispatchToProps)(PostView);

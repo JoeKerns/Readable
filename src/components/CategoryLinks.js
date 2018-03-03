@@ -2,20 +2,23 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import '../App.css';
+import { Icon, Button, Menu } from 'semantic-ui-react';
+import { ucWord } from '../utils/helpers';
 
 class CategoryLinks extends Component {
   render() {
     const { categories } = this.props;
+
     return (
       <div>
-      <Link to="/">Home</Link> 
-      Categories: 
-      {
-      categories && categories.map((category, index) => (
-        <span key={category.name}> <Link to={`/category/${category.path}`}>{category.name}</Link> </span> 
-        ))
-      }
-      <div><Link to="/newpost">New Post</Link></div>
+        <Menu>
+          <Menu.Item header><Link to="/"><Icon name="home" size="big" /></Link></Menu.Item>
+        {
+        categories && categories.map((category, index) => (
+          <Menu.Item header key={category.path}><Link to={`/category/${category.path}`}><Button>{ucWord(category.name)}</Button></Link></Menu.Item>
+          ))
+        }
+        </Menu> 
       </div>
     )    
   }

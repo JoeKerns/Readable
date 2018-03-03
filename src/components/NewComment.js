@@ -6,6 +6,7 @@ import { commentSaveToServer } from '../utils/api';
 import '../App.css';
 //import { Link } from 'react-router-dom';
 import uuid from 'uuid';
+import { Button, Form } from 'semantic-ui-react';
 
 class NewComment extends Component {
   saveComment = (e) => {
@@ -25,20 +26,21 @@ class NewComment extends Component {
 
     this.props.commentSave(commentData);
     commentSaveToServer(JSON.stringify(commentData));
+    this.props.history.push(`/posts/${this.props.match.params.parentId}`);
     //console.log(commentData);
   }
 
   render() {
+    console.log(this.props);
     return (
       <div>
-        <h3>New Comment for {this.props.match.params.parentId}</h3>
+        <h3>New Comment</h3>
         
-        <form onSubmit={this.saveComment}>
-        <div>Name: </div><div><input type="text" ref={node => { this.author = node  }} /></div>
-        <div>Title: </div><div><input type="text" ref={node => { this.title = node  }} /></div>
-        <div>Comment: </div><div><textarea cols="40" rows="8" ref={node => { this.comment = node  }}></textarea></div>
-        <button type="submit">Save Comment</button>
-        </form>
+        <Form onSubmit={this.saveComment} style={style.formStyle}>
+        <Form.Input><label>Name: </label><input type="text" ref={node => { this.author = node  }} /></Form.Input>
+        <Form.Input><label>Comment: </label><textarea cols="40" rows="8" ref={node => { this.comment = node  }}></textarea></Form.Input>
+        <Button type="submit">Save Comment</Button>
+        </Form>
       </div>
     )    
   }
@@ -56,5 +58,12 @@ const mapDispatchToProps = dispatch =>
     },
     dispatch
   );
+
+  const style={
+    formStyle: {
+      width: '40%',
+      margin: 'auto',
+    }
+  }
 
 export default connect(mapStateToProps,mapDispatchToProps)(NewComment);
