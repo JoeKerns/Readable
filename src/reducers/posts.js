@@ -26,6 +26,7 @@ export default (state = inintialState, action) => {
       let newPostState = [...state];
       const key = state.findIndex(post => post.id === action.payload.id);
       newPostState[key] = action.payload;
+      //console.log('post update payload',action.payload);
       return  [...newPostState];
     }
     case POST_DELETE: {

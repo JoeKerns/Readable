@@ -13,9 +13,9 @@ class PostEdit extends Component {
     }
 
     e.preventDefault();       
-    
-    if (this.props.post.voteCount === undefined) {
-      this.props.post.voteCount = 0;
+
+    if (this.props.post.voteScore === undefined) {
+      this.props.post.voteScore = 0;
     }
 
     const postData = {
@@ -27,21 +27,18 @@ class PostEdit extends Component {
       timestamp: Date.now(),
       commentCount: this.props.post.commentCount,
       deleted: this.props.post.deleted,
-      voteScore: this.props.post.voteCount,
+      voteScore: this.props.post.voteScore,
     }
-
-    //console.log(postData);
 
     this.props.postUpdate(postData);
     postUpdateToServer(postData.id,postData.title, postData.body);
 
-    this.props.history.push(`/posts/${postData.id}`);
+    this.props.history.push(`/${postData.category}/${postData.id}`);
   }
 
   
   render() {
     
-    console.log('this.props.post',this.props.post);
     return (
       <div>
         <h3>New Post</h3>

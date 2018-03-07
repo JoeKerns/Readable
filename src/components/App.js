@@ -10,15 +10,14 @@ import CategoryLinks from './CategoryLinks';
 class App extends Component {
    componentDidMount() {
     this.props.categoriesGet();
-    this.props.postsGet();    
+    this.props.postsGet();
   }
 
   render() {
-    //console.log(this.props);
     return (
       <div className="App">
         <CategoryLinks />
-        <Main/>{/*  */}        
+        <Main/> 
       </div>
     );
   }

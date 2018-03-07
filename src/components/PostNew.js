@@ -30,7 +30,7 @@ class PostNew extends Component {
 
     this.props.postSave(postData);
     postSaveToServer(JSON.stringify(postData));
-    this.props.history.push(`/category/${this.category.value}`);
+    this.props.history.push(`/${this.category.value}`);
   }
   
   render() {
@@ -42,7 +42,7 @@ class PostNew extends Component {
         <input type="hidden" ref={node => { this.id = node  }} defaultValue={this.props.match.params.id} />
         <Form.Field><label>Name:</label> <input type="text" placeholder="Name" ref={node => { this.author = node  }}  /></Form.Field>
         <Form.Field><label>Title: </label><input type="text" ref={node => { this.title = node  }}  /></Form.Field>
-        <Form.Field><label>'Category:'</label><select  ref={node => { this.category = node  }}>
+        <Form.Field><label>Category:</label><select  ref={node => { this.category = node  }}>
         {
           this.props.categories !== null && this.props.categories.map((category, index) => (
             <option key={category.name} value={category.name}>{ucWord(category.name)}</option>

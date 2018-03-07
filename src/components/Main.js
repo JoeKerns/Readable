@@ -18,12 +18,14 @@ const Main = () => (
   <main>
     <Switch>
       <Route exact path='/' component={Posts}/>
-      <Route path='/category/:name' component={Posts}/>
       <Route path='/posts/:id' component={PostView}/>
       <Route path='/newpost' component={PostNew}/>
       <Route path='/newcomment/:parentId' component={NewComment}/>
       <Route path='/editpost/:id' component={PostEdit}/>
       <Route path='/editcomment/:id' component={CommentEdit}/>
+      <Route path='/:category/:id' component={Posts}/>
+      <Route exact path='/:category' component={Posts}/>
+      <Route path='/:category/:name' component={Posts}/>
       {/*
       <Route exact path='/' component={Posts}/>
       <Route path='/roster' component={Roster}/>

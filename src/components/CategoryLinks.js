@@ -15,7 +15,7 @@ class CategoryLinks extends Component {
           <Menu.Item header><Link to="/"><Icon name="home" size="big" /></Link></Menu.Item>
         {
         categories && categories.map((category, index) => (
-          <Menu.Item header key={category.path}><Link to={`/category/${category.path}`}><Button>{ucWord(category.name)}</Button></Link></Menu.Item>
+          <Menu.Item header key={category.path}><Link to={`/${category.path}`}><Button>{ucWord(category.name)}</Button></Link></Menu.Item>
           ))
         }
         </Menu> 
