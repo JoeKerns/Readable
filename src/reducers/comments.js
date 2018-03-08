@@ -5,6 +5,7 @@ const inintialState = [];
 export default (state = inintialState, action) => {
   switch (action.type) {
     case GET_COMMENTS: {
+      //console.log(action.comments);
       return [...action.comments];
     }
     case COMMENT_VOTE: {

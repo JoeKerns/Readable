@@ -6,14 +6,7 @@ import PostNew from './PostNew'
 import NewComment from './NewComment'
 import PostEdit from './PostEdit'
 import CommentEdit from './CommentEdit'
-//import Roster from './Roster'
-//import Schedule from './Schedule'
 
-// The Main component renders one of the three provided
-// Routes (provided that one matches). Both the /roster
-// and /schedule routes will match any pathname that starts
-// with /roster or /schedule. The / route will only match
-// when the pathname is exactly the string "/"
 const Main = () => (
   <main>
     <Switch>
@@ -25,7 +18,6 @@ const Main = () => (
       <Route path='/editcomment/:id' component={CommentEdit}/>
       <Route path='/:category/:id' component={Posts}/>
       <Route exact path='/:category' component={Posts}/>
-      <Route path='/:category/:name' component={Posts}/>
       {/*
       <Route exact path='/' component={Posts}/>
       <Route path='/roster' component={Roster}/>

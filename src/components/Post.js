@@ -9,15 +9,9 @@ import { updateCommentVote, deleteCommentFromServer } from '../utils/api'; // , 
 import CommentView from './Comment';
 
 class Post extends Component {
-  componentDidMount() {
-    let theID = null;
-    if (this.props.id) {
-      theID = this.props.id;   
-      console.log('wtf...does it only mount once??');
-      this.props.commentsGet(theID);   
-    }    
-    
-  }
+
+  state = { id: null }   
+
   render() {
     if (this.props.post) {
       let thisID = '';
@@ -25,6 +19,8 @@ class Post extends Component {
       let bodyContent = '';
       const post = this.props.post;
       const { postVoteUp, postVoteDown, postDelete, comments } = this.props;
+
+      comments && console.log('comments',comments);
 
       if (this.props.id) {
         thisID = this.props.id;
@@ -96,14 +92,16 @@ class Post extends Component {
 
           <Comment.Group style={style.commentGroup}>
           {
-            thisID !== '' && comments.map((comment) => (
+            comments && comments.map((comment) => (
               <CommentView              
                 comment={comment} 
                 key={comment.id}
                 parentId={thisID} 
                 commentVoteUp={commentVoteUp} 
                 commentVoteDown={commentVoteDown}
-                deleteComment={deleteComment}/**/ />
+                deleteComment={deleteComment}/**/ 
+              />
+              
             ))
           }
 

@@ -33,7 +33,7 @@ class CommentView extends Component {
       } 
     
     return(
-      <div>No Comments</div>
+      null
     )
   }
 }

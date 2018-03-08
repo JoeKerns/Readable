@@ -21,14 +21,19 @@ export const categoriesGet = () => dispatch =>
       })
     );
 
-export const postsGet = () => dispatch =>
-  api.getPosts()
-    .then(({ posts }) => 
+export const postsGet = () => dispatch => {
+  const getPostResults = api.getPosts();
+  getPostResults.then(posts => 
+    posts.posts.map((post) => commentsGet(post.id)(dispatch) )
+  );
+
+    return getPostResults.then(({ posts }) => 
       dispatch({
         type: GET_POSTS,
         posts
       })
     );
+  }
 
 export const postVote = (id,which) => dispatch =>
   dispatch({
@@ -54,14 +59,16 @@ export const postDelete = (postId) => dispatch =>
     id: postId
   });
 
-export const commentsGet = (postId) => dispatch =>
-  api.getComments(postId)
-    .then(({ comments }) =>
+export const commentsGet = (postId) => dispatch => {
+  const commentsGetResult = api.getComments(postId);
+
+  return commentsGetResult.then( comments =>
       dispatch({
         type: GET_COMMENTS,
-        comments
+        comments: comments.comments,
       })
     );
+  }
 
 export const commentUpdate = (commentData) => dispatch =>
   dispatch({

@@ -1,15 +1,26 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
-import { postVote, postDelete } from '../actions/actions'; //, commentsGet, commentVote, commentDelete
+import { postVote, postDelete, commentsGet } from '../actions/actions'; //, commentsGet, commentVote, commentDelete
 import { updatePostVote, deletePostFromServer } from '../utils/api'; // , updateCommentVote, deleteCommentFromServer
 import { Link } from 'react-router-dom';
 import { Icon, Checkbox } from 'semantic-ui-react';
 import { ucWord } from '../utils/helpers';
 import Post from './Post';
+//import { commentsGet } from '../actions/actions'; // , commentVote, commentDelete
 
 class Posts extends Component {
   state = { sortOption: true }
+
+  componentDidMount() {
+    /*if (posts) {
+      posts.map((post) => {
+        console.log('post.id = ',post.id);
+        post.id && this.props.commentsGet(post.id);
+      });  
+    }*/
+  }   
+
   render() {
     let category = '';
     let postsFromCategory = [];
@@ -76,7 +87,7 @@ class Posts extends Component {
     });
 
     const toggleSortOption = () => this.setState({sortOption: !sortOption})
-    //console.log(this.state);
+    
     return (
       
       <div>
@@ -106,9 +117,10 @@ class Posts extends Component {
   }
 }
 
-function mapStateToProps({ posts }) {  
+function mapStateToProps({ posts, comments }) {  
 	return {
       posts,
+      comments,
     }
 }         /**/
 
@@ -116,6 +128,7 @@ const mapDispatchToProps = dispatch =>
   bindActionCreators( {      
       postVote,
       postDelete,
+      commentsGet,
     },
     dispatch
   ); // commentsGet,commentVote,commentDelete,
