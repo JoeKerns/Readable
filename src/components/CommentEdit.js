@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import { commentUpdate } from '../actions/actions';
 import { commentUpdateToServer } from '../utils/api';
-import '../App.css';
+import { Button, Form } from 'semantic-ui-react';
 
 class CommentEdit extends Component {
   saveComment = (e) => {
@@ -20,7 +20,7 @@ class CommentEdit extends Component {
       body: this.body.value,
       timestamp: Date.now(),
       deleted: this.props.comment.deleted,
-      voteScore: this.props.comment.voteCount,
+      voteScore: this.props.comment.voteScore,
       parentDeleted: this.props.comment.parentDeleted,
     }
 
@@ -28,18 +28,17 @@ class CommentEdit extends Component {
     commentUpdateToServer(commentData.id,commentData.timestamp, commentData.body);
     this.props.history.push(`/posts/${commentData.parentId}`);
   }
-
   
   render() {    
     return (
-      <div>
+      <div style={style.form}>
         <h3>Edit Comment</h3>
         
-        <form onSubmit={this.saveComment}>
+        <Form onSubmit={this.saveComment}>
         <input type="hidden" ref={node => { this.id = node  }} defaultValue={this.props.match.params.id} />
-        <div>Body: </div><div><textarea cols="40" rows="8" ref={node => { this.body = node  }} defaultValue={this.props.comment.body}></textarea></div>
-        <button type="submit">Update Comment</button>
-        </form>
+        <Form.Input><textarea cols="40" rows="8" ref={node => { this.body = node  }} defaultValue={this.props.comment.body}></textarea></Form.Input>
+        <Button type="submit">Update Comment</Button>
+        </Form>
       </div>
     )    
   }
@@ -58,5 +57,14 @@ const mapDispatchToProps = dispatch =>
     },
     dispatch
   );
+
+  const style = {
+    form: {
+      margin: 'auto',
+      marginBottom: 12,
+      width: '45%',
+    },
+  
+  }
 
 export default connect(mapStateToProps,mapDispatchToProps)(CommentEdit);

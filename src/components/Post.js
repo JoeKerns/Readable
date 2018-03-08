@@ -20,8 +20,6 @@ class Post extends Component {
       const post = this.props.post;
       const { postVoteUp, postVoteDown, postDelete, comments } = this.props;
 
-      comments && console.log('comments',comments);
-
       if (this.props.id) {
         thisID = this.props.id;
       }
@@ -49,7 +47,7 @@ class Post extends Component {
       }
 
       const deleteComment = (commentId) => {
-        if (window.confirm(`Are you sure you want to delete this comment? Deleted comments are gone forever! ${commentId}`)) {
+        if (window.confirm(`Are you sure you want to delete this comment? Deleted comments are gone forever!`)) {
           this.props.commentDelete(commentId);
           deleteCommentFromServer(commentId);
         }
@@ -92,6 +90,7 @@ class Post extends Component {
 
           <Comment.Group style={style.commentGroup}>
           {
+            
             comments && comments.map((comment) => (
               <CommentView              
                 comment={comment} 
@@ -99,7 +98,7 @@ class Post extends Component {
                 parentId={thisID} 
                 commentVoteUp={commentVoteUp} 
                 commentVoteDown={commentVoteDown}
-                deleteComment={deleteComment}/**/ 
+                deleteComment={deleteComment}
               />
               
             ))

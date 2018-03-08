@@ -35,14 +35,22 @@ class Posts extends Component {
       postsFromCategory = posts.filter(post => post.category === category);
     }
 
-    if (this.props.match.params.name) {
+    /*if (this.props.match.params.name) {
       category = this.props.match.params.name;
       postsFromCategory = posts.filter(post => post.category === category);
-    }
+    }*/
 
     if (this.props.match.params.id) {
       id = this.props.match.params.id;
       postsFromCategory = posts.filter(post => post.id === id);
+      if (postsFromCategory.length === 0) {
+        return (
+          <div>
+            <br/>
+            <h2> This post has been deleted or never existed. Please click a category link above to view posts. </h2>
+          </div>
+        )
+      }
     }
     else {
       id = null;
@@ -72,7 +80,7 @@ class Posts extends Component {
       return (
         <div>
           <br/>
-          <h2> No posts for this category...maybe you should add one!  <Link to="/newpost"><Icon name="add square" size="small" /></Link> </h2>
+          <h2> No posts for {this.props.match.params.category}...maybe you should add one!  <Link to="/newpost"><Icon name="add square" size="small" /></Link> </h2>
         </div>
         
       )}
@@ -93,7 +101,7 @@ class Posts extends Component {
       <div>
         <div style={style.header}> { ucWord(this.props.match.params.category) || 'Posts' }  <Link to="/newpost"><Icon name="add square" size="small" /></Link> </div>
         
-        <div style={style.slider}>Sort By: { this.state.sortOption ? 'TIMESTAMP' : 'timestamp' } <Checkbox slider onClick={toggleSortOption} /> Vote</div>
+        <div style={style.slider}>Sort By: Timestamp <Checkbox slider onClick={toggleSortOption} /> Vote</div>
 
         { 
           postsToShow && postsToShow.map((post, index) => (

@@ -5,8 +5,16 @@ const inintialState = [];
 export default (state = inintialState, action) => {
   switch (action.type) {
     case GET_COMMENTS: {
-      //console.log(action.comments);
-      return [...action.comments];
+      let newCommentState = [...state];
+      if (action.comments.length > 0) { // loop through the incoming comments
+        action.comments.map((comment) => { // loop through the existing comments
+          const alreadyCopiedIn = newCommentState.findIndex(existing => existing.id === comment.id); // check if the comment already exists
+          if (alreadyCopiedIn === -1) { // if it does not exist
+            newCommentState = newCommentState.concat(action.comments); // concat it on...
+          }
+        return null })
+      }
+      return [...newCommentState];
     }
     case COMMENT_VOTE: {
       let newCommentState = [...state];

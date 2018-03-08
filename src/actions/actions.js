@@ -62,12 +62,12 @@ export const postDelete = (postId) => dispatch =>
 export const commentsGet = (postId) => dispatch => {
   const commentsGetResult = api.getComments(postId);
 
-  return commentsGetResult.then( comments =>
+  return commentsGetResult.then( comments => {
       dispatch({
         type: GET_COMMENTS,
         comments: comments.comments,
       })
-    );
+    });
   }
 
 export const commentUpdate = (commentData) => dispatch =>

@@ -22,6 +22,15 @@ class PostView extends Component {
     const { posts, comments } = this.props;
     const post = posts.filter(post => post.id === thisID);
 
+    if (post.length === 0) {
+        return (
+          <div>
+            <br/>
+            <h2> This post has been deleted or never existed. Please click a category link above to view posts. </h2>
+          </div>
+        )
+    }
+
     const deletePost = () => {
       if (window.confirm(`Are you sure you want to delete this post? Deleted post are gone forever!`)) {
         this.props.postDelete(thisID);
@@ -31,7 +40,7 @@ class PostView extends Component {
     };
 
     const deleteComment = (commentId) => {
-      if (window.confirm(`Are you sure you want to delete this comment? Deleted comments are gone forever! ${commentId}`)) {
+      if (window.confirm(`Are you sure you want to delete this comment? Deleted comments are gone forever!`)) {
         this.props.commentDelete(commentId);
         deleteCommentFromServer(commentId);
       }
@@ -71,7 +80,7 @@ class PostView extends Component {
               <Card.Description>
                 <p>Author: {thisPost.author}</p>
                 <p>{ thisPost.body }</p>
-                </Card.Description>
+              </Card.Description>
             </Card.Content>
             <Card.Content extra>
               <p>Post Score: { thisPost.voteScore } <Icon onClick={postVoteUp} name="thumbs outline up" style={{color: 'green'}} size="large" /> <Icon name="thumbs outline down" style={{color: 'red'}} size="large" onClick={postVoteDown}/></p>   

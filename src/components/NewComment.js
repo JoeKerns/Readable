@@ -21,7 +21,8 @@ class NewComment extends Component {
       timestamp: Date.now(),
       body: this.comment.value,
       author: this.author.value,
-      parentId: this.props.match.params.parentId,      
+      parentId: this.props.match.params.parentId,  
+      voteScore: 0,    
     }
 
     this.props.commentSave(commentData);
@@ -31,7 +32,6 @@ class NewComment extends Component {
   }
 
   render() {
-    console.log(this.props);
     return (
       <div>
         <h3>New Comment</h3>
